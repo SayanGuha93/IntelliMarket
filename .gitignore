@@ -1,0 +1,25 @@
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# Database
+*.db
+*.sqlite
+*.sqlite3
+
+# Environment/API secrets
+.env
+
+# Large datasets
+*.csv
+*.xlsx
+*.xls
+
+# VS Code
+.vscode/
+
+# OS
+.DS_Store
+Thumbs.db
