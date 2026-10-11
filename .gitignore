@@ -11,6 +11,8 @@ venv/
 
 # Environment/API secrets
 .env
+*.pkl
+*.joblib
 
 # Large datasets
 *.csv
