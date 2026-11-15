@@ -1,6 +1,7 @@
 import json
 import sqlite3
 import tempfile
+from contextlib import closing
 from pathlib import Path
 from unittest.mock import patch
 
@@ -32,7 +33,7 @@ class GoogleBooksApiTests(SimpleTestCase):
             root = Path(temp_dir)
             (root / "backend").mkdir()
             db_path = root / "prices.db"
-            with sqlite3.connect(db_path) as connection:
+            with closing(sqlite3.connect(db_path)) as connection:
                 connection.executescript(
                     """
                     CREATE TABLE google_books_catalog (

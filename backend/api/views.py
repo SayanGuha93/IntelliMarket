@@ -1,4 +1,5 @@
 import sqlite3
+from contextlib import closing
 from pathlib import Path
 
 from django.http import JsonResponse
@@ -237,22 +238,21 @@ def get_stored_google_books(request):
     db_path = Path(settings.BASE_DIR).parent / "prices.db"
     query = request.GET.get("q", "").strip()
     try:
-        conn = sqlite3.connect(str(db_path))
-        conn.row_factory = sqlite3.Row
-        sql = """SELECT volume_id, title, subtitle, authors, publisher,
-                        published_date, description, categories, isbn10, isbn13,
-                        thumbnail_url, preview_url, info_url, sale_country,
-                        saleability, is_ebook, google_list_price,
-                        google_list_currency, google_retail_price,
-                        google_retail_currency, updated_at
-                 FROM google_books_catalog"""
-        params = []
-        if query:
-            sql += " WHERE title LIKE ? OR authors LIKE ? OR isbn10 = ? OR isbn13 = ?"
-            params.extend((f"%{query}%", f"%{query}%", query, query))
-        sql += " ORDER BY title LIMIT 100"
-        rows = [dict(row) for row in conn.execute(sql, params).fetchall()]
-        conn.close()
+        with closing(sqlite3.connect(str(db_path))) as conn:
+            conn.row_factory = sqlite3.Row
+            sql = """SELECT volume_id, title, subtitle, authors, publisher,
+                            published_date, description, categories, isbn10, isbn13,
+                            thumbnail_url, preview_url, info_url, sale_country,
+                            saleability, is_ebook, google_list_price,
+                            google_list_currency, google_retail_price,
+                            google_retail_currency, updated_at
+                     FROM google_books_catalog"""
+            params = []
+            if query:
+                sql += " WHERE title LIKE ? OR authors LIKE ? OR isbn10 = ? OR isbn13 = ?"
+                params.extend((f"%{query}%", f"%{query}%", query, query))
+            sql += " ORDER BY title LIMIT 100"
+            rows = [dict(row) for row in conn.execute(sql, params).fetchall()]
         return JsonResponse({"provider": "Google Books", "count": len(rows), "books": rows})
     except sqlite3.Error as error:
         return JsonResponse({"error": str(error)}, status=500)
@@ -262,7 +262,7 @@ def get_google_books_price_history(request, volume_id):
     """Return only prices reported by the Google Books eBookstore."""
     db_path = Path(settings.BASE_DIR).parent / "prices.db"
     try:
-        with sqlite3.connect(str(db_path)) as conn:
+        with closing(sqlite3.connect(str(db_path))) as conn:
             conn.row_factory = sqlite3.Row
             rows = [dict(row) for row in conn.execute(
                 """SELECT volume_id, observed_at, sale_country, saleability,
