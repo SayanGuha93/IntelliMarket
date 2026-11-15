@@ -2,6 +2,7 @@ import json
 import sqlite3
 import tempfile
 import unittest
+from contextlib import closing
 from pathlib import Path
 from unittest.mock import Mock
 
@@ -72,24 +73,26 @@ class GoogleBooksTests(unittest.TestCase):
     def test_catalog_upsert_runs_on_separate_additive_table(self):
         with tempfile.TemporaryDirectory() as temp_dir:
             db_path = Path(temp_dir) / "prices.sqlite3"
-            with sqlite3.connect(db_path) as connection:
-                migration = Path(__file__).resolve().parents[2] / "database" / "migrations" / "001_google_books_catalog.sql"
-                connection.executescript(migration.read_text(encoding="utf-8"))
+            with closing(sqlite3.connect(db_path)) as connection:
+                with connection:
+                    migration = Path(__file__).resolve().parents[2] / "database" / "migrations" / "001_google_books_catalog.sql"
+                    connection.executescript(migration.read_text(encoding="utf-8"))
 
             book = normalize_volume(VOLUME)
             save_catalog_records([book], database_path=db_path)
             book["title"] = "Updated Example Book"
             save_catalog_records([book], database_path=db_path)
 
-            with sqlite3.connect(db_path) as connection:
-                row = connection.execute(
-                    "SELECT title, authors, google_retail_price, google_retail_currency FROM google_books_catalog WHERE volume_id = ?",
-                    ("volume-123",),
-                ).fetchone()
-                history_count = connection.execute(
-                    "SELECT COUNT(*) FROM google_books_price_history WHERE volume_id = ?",
-                    ("volume-123",),
-                ).fetchone()[0]
+            with closing(sqlite3.connect(db_path)) as connection:
+                with connection:
+                    row = connection.execute(
+                        "SELECT title, authors, google_retail_price, google_retail_currency FROM google_books_catalog WHERE volume_id = ?",
+                        ("volume-123",),
+                    ).fetchone()
+                    history_count = connection.execute(
+                        "SELECT COUNT(*) FROM google_books_price_history WHERE volume_id = ?",
+                        ("volume-123",),
+                    ).fetchone()[0]
             self.assertEqual(row[0], "Updated Example Book")
             self.assertEqual(json.loads(row[1]), ["A. Author"])
             self.assertEqual(row[2:], (4.99, "USD"))
