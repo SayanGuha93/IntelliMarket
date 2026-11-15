@@ -3,6 +3,7 @@ from pathlib import Path
 
 from django.http import JsonResponse
 from django.conf import settings
+from data_sources.google_books import GoogleBooksError, search_books
 
 
 
@@ -210,6 +211,74 @@ def get_category_analytics(request):
             "categories": [dict(row) for row in rows]
         })
 
+    except sqlite3.Error as error:
+        return JsonResponse({"error": str(error)}, status=500)
+
+
+def search_google_books(request):
+    """Live Google Books search; saleInfo is labeled as Google Books pricing."""
+    query = request.GET.get("q", "").strip()
+    if not query:
+        return JsonResponse({"error": "Query parameter 'q' is required."}, status=400)
+    try:
+        start_index = max(0, int(request.GET.get("start_index", "0")))
+        page_size = min(40, max(1, int(request.GET.get("page_size", "10"))))
+    except ValueError:
+        return JsonResponse({"error": "start_index and page_size must be integers."}, status=400)
+    try:
+        results = search_books(query, start_index=start_index, max_results=page_size)
+        return JsonResponse({"provider": "Google Books", **results})
+    except GoogleBooksError as error:
+        return JsonResponse({"error": str(error)}, status=502)
+
+
+def get_stored_google_books(request):
+    """Search the locally ingested Google Books catalog."""
+    db_path = Path(settings.BASE_DIR).parent / "prices.db"
+    query = request.GET.get("q", "").strip()
+    try:
+        conn = sqlite3.connect(str(db_path))
+        conn.row_factory = sqlite3.Row
+        sql = """SELECT volume_id, title, subtitle, authors, publisher,
+                        published_date, description, categories, isbn10, isbn13,
+                        thumbnail_url, preview_url, info_url, sale_country,
+                        saleability, is_ebook, google_list_price,
+                        google_list_currency, google_retail_price,
+                        google_retail_currency, updated_at
+                 FROM google_books_catalog"""
+        params = []
+        if query:
+            sql += " WHERE title LIKE ? OR authors LIKE ? OR isbn10 = ? OR isbn13 = ?"
+            params.extend((f"%{query}%", f"%{query}%", query, query))
+        sql += " ORDER BY title LIMIT 100"
+        rows = [dict(row) for row in conn.execute(sql, params).fetchall()]
+        conn.close()
+        return JsonResponse({"provider": "Google Books", "count": len(rows), "books": rows})
+    except sqlite3.Error as error:
+        return JsonResponse({"error": str(error)}, status=500)
+
+
+def get_google_books_price_history(request, volume_id):
+    """Return only prices reported by the Google Books eBookstore."""
+    db_path = Path(settings.BASE_DIR).parent / "prices.db"
+    try:
+        with sqlite3.connect(str(db_path)) as conn:
+            conn.row_factory = sqlite3.Row
+            rows = [dict(row) for row in conn.execute(
+                """SELECT volume_id, observed_at, sale_country, saleability,
+                          google_list_price, google_list_currency,
+                          google_retail_price, google_retail_currency
+                   FROM google_books_price_history WHERE volume_id = ?
+                   ORDER BY observed_at, id""",
+                (volume_id,),
+            ).fetchall()]
+        return JsonResponse({
+            "provider": "Google Books",
+            "price_source": "Google Books eBookstore",
+            "volume_id": volume_id,
+            "count": len(rows),
+            "history": rows,
+        })
     except sqlite3.Error as error:
         return JsonResponse({"error": str(error)}, status=500)
 
