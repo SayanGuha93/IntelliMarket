@@ -1,0 +1,45 @@
+{"id":"lookup-flip","turns":[{"text":"id:SRTEH2FF9KEDEFGF; platform:flipkart","action":"search","relevant":"flipkart:SRTEH2FF9KEDEFGF"}]}
+{"id":"lookup-myn","turns":[{"text":"platform:myntra; id:17048614.0","action":"search","relevant":"myntra:17048614"}]}
+{"id":"exact-broom","turns":[{"text":"name:Geol Wooden Wet and Dry Broom","action":"search","relevant":"flipkart:BMBEHPAGGDSSYMUZ"}]}
+{"id":"exact-jacket","turns":[{"text":"name:BUY NEW TREND Women Black Washed Lightweight Crop Denim Jacket","action":"search","relevant":"myntra:17685166"}]}
+{"id":"no-id","turns":[{"text":"platform:myntra; id:0","action":"search","empty":true}]}
+{"id":"equal-amount","turns":[{"text":"id:BMBEHPAGGDSSYMUZ; price=35","action":"search","relevant":"flipkart:BMBEHPAGGDSSYMUZ"}]}
+{"id":"exclude-boundary","turns":[{"text":"id:BMBEHPAGGDSSYMUZ; price>35","action":"search","empty":true}]}
+{"id":"retail-filter","turns":[{"text":"platform:flipkart; id:BMBEHPAGGDSSYMUZ; price-field:retail; price<=35","action":"search","relevant":"flipkart:BMBEHPAGGDSSYMUZ"}]}
+{"id":"rating-null","turns":[{"text":"platform:flipkart; id:SRTEH2FF9KEDEFGF; rating>=0","action":"search","empty":true}]}
+{"id":"rating-known","turns":[{"text":"platform:myntra; id:11489658; rating>=4","action":"search","relevant":"myntra:11489658"}]}
+{"id":"rating-count","turns":[{"text":"platform:flipkart; rating-count>0","action":"search","empty":true}]}
+{"id":"structured-roadster","turns":[{"text":"platform:myntra; brand:Roadster; colour:Blue; price>=500; price<=2000; rating>=4; sort:price-asc","action":"search","relevant":"myntra:11489658"}]}
+{"id":"descriptive-myn","turns":[{"text":"Khushal K palazzos Mandarin collar; platform:myntra; colour:black","action":"search","relevant":"myntra:17048614"}]}
+{"id":"denim-explore","turns":[{"text":"black washed crop denim jacket with snap buttons; platform:myntra; colour:black","action":"search","relevant":"myntra:17685166"}]}
+{"id":"provenance","turns":[{"text":"What datasets are you using?","action":"dataset"}]}
+{"id":"stock","turns":[{"text":"Is it in stock?","action":"unsupported"}]}
+{"id":"live","turns":[{"text":"What is the current price?","action":"unsupported"}]}
+{"id":"ambiguous-platform","turns":[{"text":"jackets on Flipkart or Myntra","action":"clarify"}]}
+{"id":"ambiguous-compare","turns":[{"text":"compare jackets on Myntra","action":"clarify"}]}
+{"id":"unknown-filter","turns":[{"text":"kurta; cheapest:true","action":"clarify"}]}
+{"id":"cross-backpack","turns":[{"text":"compare; platform:flipkart; id:BAGDY6DXVHYBVQPN","action":"cross_platform","relevant":"flipkart:BAGDY6DXVHYBVQPN","comparison":"no_reliable_match"}]}
+{"id":"cross-denim","turns":[{"text":"compare; platform:myntra; id:17685166","action":"cross_platform","relevant":"flipkart:JCKEGDFGPZZFBJ63","comparison":"similar"}]}
+{"id":"no-colour-result","turns":[{"text":"platform:myntra; id:17685166; colour:purple","action":"search","empty":true}]}
+{"id":"invalid-price-field","turns":[{"text":"platform:myntra; price-field:retail","action":"clarify"}]}
+{"id":"spec-discovery","turns":[{"text":"A nursing poncho made from modal; platform:myntra","action":"search","relevant":"myntra:15303056"}]}
+{"id":"colour-follow","turns":[{"text":"denim jackets; platform:myntra","action":"search"},{"text":"Only show black ones.","action":"search","filters":{"colour":"black"}}]}
+{"id":"platform-follow","turns":[{"text":"cotton kurta on Flipkart","action":"search"},{"text":"What about Myntra?","action":"search","filters":{"platform":"myntra"}}]}
+{"id":"second-follow","turns":[{"text":"platform:myntra; brand:Roadster; colour:Blue; price>=500; price<=2000; rating>=4; sort:price-asc","action":"search"},{"text":"Tell me more about the second product.","action":"detail","positions":[2]}]}
+{"id":"pocket-follow","turns":[{"text":"platform:myntra; id:17685166","action":"search"},{"text":"Does it have pockets?","action":"detail","relevant":"myntra:17685166","positions":[1],"contains":"pockets"}]}
+{"id":"cheapest-follow","turns":[{"text":"platform:myntra; brand:Roadster; colour:Blue; price>=500; price<=2000; rating>=4; sort:price-asc","action":"search"},{"text":"Which one is the cheapest?","action":"cheapest","relevant":"myntra:11489658"}]}
+{"id":"compare-positions","turns":[{"text":"platform:myntra; brand:Roadster; colour:Blue; price>=500; price<=2000; rating>=4; sort:price-asc","action":"search"},{"text":"Compare the first and third products.","action":"compare_results","positions":[1,3]}]}
+{"id":"remove-price","turns":[{"text":"platform:myntra; brand:Roadster; colour:Blue; price>=500; price<=2000; rating>=4; sort:price-asc","action":"search"},{"text":"Remove the price restriction.","action":"search","filters":{"price_min":null,"price_max":null}}]}
+{"id":"cheaper-follow","turns":[{"text":"platform:myntra; id:17685166","action":"search"},{"text":"Show cheaper alternatives.","action":"cheaper","filters":{"price_max":{"value":"1499","inclusive":false}}}]}
+{"id":"reset-follow","turns":[{"text":"platform:myntra; brand:Roadster; colour:Blue; price>=500; price<=2000; rating>=4; sort:price-asc","action":"search"},{"text":"Start a new search.","action":"reset"},{"text":"Tell me more about the second product.","action":"clarify"}]}
+{"id":"new-query-is-independent","turns":[{"text":"platform:myntra; brand:Roadster; colour:Blue; price>=500; price<=2000; rating>=4; sort:price-asc","action":"search"},{"text":"platform:flipkart; id:SRTEH2FF9KEDEFGF","action":"search","relevant":"flipkart:SRTEH2FF9KEDEFGF","filters":{"brand":null,"colour":null}}]}
+{"id":"focus-persists","turns":[{"text":"platform:myntra; brand:Roadster; colour:Blue; price>=500; price<=2000; rating>=4; sort:price-asc","action":"search"},{"text":"Tell me more about the second product.","action":"detail","positions":[2]},{"text":"What is its rating?","action":"detail","relevant":"myntra:11541604"}]}
+{"id":"bad-position","turns":[{"text":"platform:myntra; id:17685166","action":"search"},{"text":"Tell me more about the third product.","action":"clarify"}]}
+{"id":"missing-pockets","turns":[{"text":"platform:flipkart; id:SRTEH2FF9KEDEFGF","action":"search"},{"text":"Does it have pockets?","action":"detail","relevant":"flipkart:SRTEH2FF9KEDEFGF","positions":[1],"contains":"does not establish pockets"}]}
+{"id":"fabric-follow","turns":[{"text":"platform:flipkart; id:SRTEH2FF9KEDEFGF","action":"search"},{"text":"What is its fabric?","action":"detail","relevant":"flipkart:SRTEH2FF9KEDEFGF","positions":[1],"contains":"Cotton Lycra"}]}
+{"id":"exact-id-platform-switch","turns":[{"text":"platform:myntra; id:17685166","action":"search"},{"text":"What about Flipkart?","action":"clarify"}]}
+{"id":"reset-slash","turns":[{"text":"platform:myntra; id:17685166","action":"search"},{"text":"/reset","action":"reset"},{"text":"Only show black ones.","action":"clarify"}]}
+{"id":"cross-follow","turns":[{"text":"compare; platform:myntra; id:17685166","action":"cross_platform"},{"text":"Tell me more about the first product.","action":"detail","relevant":"myntra:17685166","positions":[1]}]}
+{"id":"verified-cotton-kurtas","turns":[{"text":"Find women's cotton kurtas under 1500","action":"search","relevant":"flipkart:KTADZCUTW8FFAD39","filters":{"fabric":"cotton","gender":"women","price_max":{"value":"1500","inclusive":false}}},{"text":"What about Myntra?","action":"search","filters":{"platform":"myntra","fabric":"cotton","gender":"women"}},{"text":"Only show black ones.","action":"search","filters":{"platform":"myntra","fabric":"cotton","gender":"women","colour":"black","price_max":{"value":"1500","inclusive":false}}}]}
+{"id":"cotton-brand-negative","turns":[{"text":"platform:flipkart; id:KRTEJ8EWCZNMX9YM; fabric:cotton","action":"search","empty":true}]}
+{"id":"explicit-cotton-blend","turns":[{"text":"platform:flipkart; id:SRTEH2FF9KEDEFGF; fabric:cotton blend","action":"search","relevant":"flipkart:SRTEH2FF9KEDEFGF","contains":"Fabric: Cotton Lycra"}]}

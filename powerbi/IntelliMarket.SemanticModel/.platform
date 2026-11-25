@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "SemanticModel",
+    "displayName": "IntelliMarket"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "cc43e533-687d-49ac-a31e-ccaf72da8821"
+  }
+}

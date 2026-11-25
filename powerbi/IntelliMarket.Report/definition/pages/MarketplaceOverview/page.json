@@ -1,0 +1,169 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/page/2.1.0/schema.json",
+  "name": "MarketplaceOverview",
+  "displayName": "Marketplace Overview",
+  "displayOption": "FitToPage",
+  "height": 900,
+  "width": 1600,
+  "objects": {
+    "background": [
+      {
+        "properties": {
+          "color": {
+            "solid": {
+              "color": {
+                "expr": {
+                  "Literal": {
+                    "Value": "'#E9EFF7'"
+                  }
+                }
+              }
+            }
+          },
+          "transparency": {
+            "expr": {
+              "Literal": {
+                "Value": "0D"
+              }
+            }
+          }
+        }
+      }
+    ],
+    "outspacePane": [
+      {
+        "properties": {
+          "width": {
+            "expr": {
+              "Literal": {
+                "Value": "181L"
+              }
+            }
+          }
+        }
+      }
+    ]
+  },
+  "visualInteractions": [
+    {
+      "source": "slicer0",
+      "target": "kpi0",
+      "type": "DataFilter"
+    },
+    {
+      "source": "slicer0",
+      "target": "kpi1",
+      "type": "DataFilter"
+    },
+    {
+      "source": "slicer0",
+      "target": "kpi2",
+      "type": "DataFilter"
+    },
+    {
+      "source": "slicer0",
+      "target": "kpi3",
+      "type": "DataFilter"
+    },
+    {
+      "source": "slicer0",
+      "target": "marketDonut",
+      "type": "DataFilter"
+    },
+    {
+      "source": "slicer0",
+      "target": "topCategories",
+      "type": "DataFilter"
+    },
+    {
+      "source": "slicer0",
+      "target": "topBrands",
+      "type": "DataFilter"
+    },
+    {
+      "source": "slicer0",
+      "target": "categoryMarket",
+      "type": "DataFilter"
+    },
+    {
+      "source": "slicer1",
+      "target": "kpi0",
+      "type": "DataFilter"
+    },
+    {
+      "source": "slicer1",
+      "target": "kpi1",
+      "type": "DataFilter"
+    },
+    {
+      "source": "slicer1",
+      "target": "kpi2",
+      "type": "DataFilter"
+    },
+    {
+      "source": "slicer1",
+      "target": "kpi3",
+      "type": "DataFilter"
+    },
+    {
+      "source": "slicer1",
+      "target": "marketDonut",
+      "type": "DataFilter"
+    },
+    {
+      "source": "slicer1",
+      "target": "topCategories",
+      "type": "DataFilter"
+    },
+    {
+      "source": "slicer1",
+      "target": "topBrands",
+      "type": "DataFilter"
+    },
+    {
+      "source": "slicer1",
+      "target": "categoryMarket",
+      "type": "DataFilter"
+    },
+    {
+      "source": "slicer2",
+      "target": "kpi0",
+      "type": "DataFilter"
+    },
+    {
+      "source": "slicer2",
+      "target": "kpi1",
+      "type": "DataFilter"
+    },
+    {
+      "source": "slicer2",
+      "target": "kpi2",
+      "type": "DataFilter"
+    },
+    {
+      "source": "slicer2",
+      "target": "kpi3",
+      "type": "DataFilter"
+    },
+    {
+      "source": "slicer2",
+      "target": "marketDonut",
+      "type": "DataFilter"
+    },
+    {
+      "source": "slicer2",
+      "target": "topCategories",
+      "type": "DataFilter"
+    },
+    {
+      "source": "slicer2",
+      "target": "topBrands",
+      "type": "DataFilter"
+    },
+    {
+      "source": "slicer2",
+      "target": "categoryMarket",
+      "type": "DataFilter"
+    }
+  ]
+}

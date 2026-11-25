@@ -1,0 +1,31 @@
+{
+  "name": "IntelliMarket",
+  "dataColors": [
+    "#2563EB",
+    "#DB2777",
+    "#0F766E",
+    "#7C3AED",
+    "#B45309",
+    "#64748B"
+  ],
+  "background": "#FFFFFF",
+  "foreground": "#101E37",
+  "tableAccent": "#2563EB",
+  "textClasses": {
+    "title": {
+      "fontFace": "Segoe UI Semibold",
+      "fontSize": 13,
+      "color": "#101E37"
+    },
+    "label": {
+      "fontFace": "Segoe UI",
+      "fontSize": 10,
+      "color": "#101E37"
+    },
+    "callout": {
+      "fontFace": "Segoe UI Semibold",
+      "fontSize": 25,
+      "color": "#101E37"
+    }
+  }
+}

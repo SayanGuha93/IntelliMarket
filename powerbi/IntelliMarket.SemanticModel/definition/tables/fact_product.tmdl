@@ -1,0 +1,389 @@
+table fact_product
+	lineageTag: e95cd5fc-c654-4f5c-99e9-ccd79ae72478
+
+	measure 'Product Count' = COUNTROWS(fact_product)
+		formatString: #,0
+		lineageTag: d0b188a5-5593-467a-9f2b-981099465e2c
+
+	measure 'Flipkart Products' = CALCULATE([Product Count], KEEPFILTERS(dim_marketplace[marketplace] = "flipkart"))
+		formatString: #,0
+		lineageTag: ac1830d0-98f3-448a-be49-e9eb4cfcd5c2
+
+	measure 'Myntra Products' = CALCULATE([Product Count], KEEPFILTERS(dim_marketplace[marketplace] = "myntra"))
+		formatString: #,0
+		lineageTag: d96e183c-68d8-4f8e-bb3a-6f062400d1de
+
+	measure 'Known Brands' = CALCULATE(DISTINCTCOUNT(fact_product[brand_id]), KEEPFILTERS(fact_product[brand_id] <> 0))
+		formatString: #,0
+		lineageTag: a9fe4321-82d2-4249-9c7c-47954dc94636
+
+	measure 'Categories Recorded' = CALCULATE(DISTINCTCOUNT(fact_product[category_id]), KEEPFILTERS(fact_product[category_id] <> 0))
+		formatString: #,0
+		lineageTag: 12ede8c6-d0ca-44b2-8973-470f74833cc3
+
+	measure 'Marketplace Share' = DIVIDE([Product Count], CALCULATE([Product Count], REMOVEFILTERS(dim_marketplace)))
+		formatString: 0.0%
+		lineageTag: 3eb4c09e-f2b5-414d-8902-cae6bcd127c4
+
+	measure 'Priced Products' = COUNT(fact_product[recorded_price])
+		formatString: #,0
+		lineageTag: e6f0071f-3c1c-4a47-a28d-03a96f99f7d6
+
+	measure 'Price Coverage' = DIVIDE([Priced Products], [Product Count])
+		formatString: 0.0%
+		lineageTag: 186e0afd-93fb-4e82-9ebe-70191f218164
+
+	measure 'Average Recorded Price' = AVERAGE(fact_product[recorded_price])
+		formatString: #,0.00
+		lineageTag: a5611f12-1a18-41cb-b8d4-1d1bdb2a87c7
+
+	measure 'Median Recorded Price' = MEDIAN(fact_product[recorded_price])
+		formatString: #,0.00
+		lineageTag: 4fa69cdc-10cf-456b-9122-c9ddfa1b4463
+
+	measure 'Discount Eligible Products' = COUNT(fact_product[discount_fraction])
+		formatString: #,0
+		lineageTag: 5a031813-a132-42aa-bf48-79644c4d5586
+
+	measure 'Discounted Products' = CALCULATE([Product Count], KEEPFILTERS(fact_product[discount_fraction] > 0))
+		formatString: #,0
+		lineageTag: 59d67cf4-071f-4aee-9d4e-a8644f984206
+
+	measure 'Average Valid Discount' = AVERAGE(fact_product[discount_fraction])
+		formatString: 0.0%
+		lineageTag: 3bfd9632-9bd4-4d2b-b0fc-256d61f1bcf7
+
+	measure 'Recorded Retail Price' = SELECTEDVALUE(fact_product[retail_price])
+		formatString: #,0.00
+		lineageTag: c746ec75-b409-4a60-b9f0-e879e516b573
+
+	measure 'Recorded Listing Price' = SELECTEDVALUE(fact_product[recorded_price])
+		formatString: #,0.00
+		lineageTag: f2e485e3-e112-4a2e-90b3-00b9477fbb60
+
+	measure 'Listing Discount Amount' = SELECTEDVALUE(fact_product[discount_amount])
+		formatString: #,0.00
+		lineageTag: 7e92bf06-1621-4019-8807-5b8b8e54a9c9
+
+	measure 'Rated Products' = SUM(fact_product[has_rating])
+		formatString: #,0
+		lineageTag: 05f839aa-ea79-4be1-95b5-a757e33e2ffb
+
+	measure 'Rating Coverage' = DIVIDE([Rated Products], [Product Count])
+		formatString: 0.0%
+		lineageTag: bbf0f13d-e392-4ad3-b871-f86bb7623f62
+
+	measure 'Average Recorded Rating' = AVERAGE(fact_product[rating])
+		formatString: #,0.00
+		lineageTag: 63eafa22-8740-4638-9843-0b4db500d3db
+
+	measure 'Products With Rating Count' = SUM(fact_product[has_rating_count])
+		formatString: #,0
+		lineageTag: ee5193af-f11e-4739-9bdb-d6dd3ffdc44b
+
+	measure 'Reported Rating Count' = SUM(fact_product[rating_count])
+		formatString: #,0
+		lineageTag: d3ce51c7-8929-4818-8827-d58080b1500e
+
+	measure 'Missing Rating' = [Product Count] - [Rated Products]
+		formatString: #,0
+		lineageTag: d1786072-68c5-4fad-a9be-66e7ad76902b
+
+	measure 'Missing Attributes' = SUM(fact_product[missing_attributes])
+		formatString: #,0
+		lineageTag: b45f61e7-d5bd-4b04-b007-002f47df6484
+
+	measure 'Category Coverage' = DIVIDE([Product Count] - SUM(fact_product[missing_category]), [Product Count])
+		formatString: 0.0%
+		lineageTag: 0b27d599-7a44-45d5-bac6-a420730ce5a2
+
+	measure 'Brand Coverage' = DIVIDE([Product Count] - SUM(fact_product[missing_brand]), [Product Count])
+		formatString: 0.0%
+		lineageTag: 27ff39b1-6ae7-4cac-8d2b-8875bda641a0
+
+	measure 'Attribute Coverage' = DIVIDE([Product Count] - [Missing Attributes], [Product Count])
+		formatString: 0.0%
+		lineageTag: aca8dce5-78af-452a-ace9-e11a713b735b
+
+	measure 'Shared Category' =
+			VAR Label = SELECTEDVALUE(dim_category[comparison_category])
+			VAR Flipkart = CALCULATE([Priced Products], REMOVEFILTERS(dim_marketplace), dim_marketplace[marketplace] = "flipkart")
+			VAR Myntra = CALCULATE([Priced Products], REMOVEFILTERS(dim_marketplace), dim_marketplace[marketplace] = "myntra")
+			RETURN IF(NOT ISBLANK(Label) && Flipkart > 0 && Myntra > 0, 1, 0)
+		formatString: #,0
+		lineageTag: 54e32bf0-c250-412a-8203-0d862364bcfa
+
+	measure 'Ranking Rating' = IF(HASONEVALUE(fact_product[product_id]) && SELECTEDVALUE(fact_product[rating_count]) >= 10, SELECTEDVALUE(fact_product[rating]))
+		formatString: #,0.00
+		lineageTag: 9b0d2d2e-e0f0-4ea7-aeca-1ae02d362710
+
+	measure 'Ranking Rating Count' = IF(NOT ISBLANK([Ranking Rating]), SELECTEDVALUE(fact_product[rating_count]))
+		formatString: #,0
+		lineageTag: 87faca35-bcbf-40f9-9dae-3bfcb4814aaf
+
+	measure 'Comparable Priced Listings' = IF([Shared Category] = 1, [Priced Products])
+		formatString: #,0
+		lineageTag: ee408b7c-c9a8-4c56-95d0-023dcfa4969a
+
+	measure 'Comparable Median Price' = IF([Shared Category] = 1, [Median Recorded Price])
+		formatString: #,0.00
+		lineageTag: ebb16b85-0c24-4b3e-9301-85bdb18e3438
+
+	measure 'Comparable Average Price' = IF([Shared Category] = 1, [Average Recorded Price])
+		formatString: #,0.00
+		lineageTag: f1c89dc9-cdd6-46dd-ad40-2e5d55b451e8
+
+	measure 'Log Recorded Price' = AVERAGEX(FILTER(fact_product, NOT ISBLANK(fact_product[recorded_price])), LOG10(1 + fact_product[recorded_price]))
+		formatString: #,0.00
+		lineageTag: 04ec0960-eed2-4097-9803-fbf5d39b87a5
+
+	measure 'Minimum Recorded Price' = MIN(fact_product[recorded_price])
+		formatString: #,0.00
+		lineageTag: d642f4f6-e10c-45c8-b7aa-c44f3d1f2d9b
+
+	measure 'Maximum Recorded Price' = MAX(fact_product[recorded_price])
+		formatString: #,0.00
+		lineageTag: 16dc8232-52ae-4ff5-be49-69ad19fce2e4
+
+	measure 'Flipkart Median Recorded Price' = CALCULATE([Median Recorded Price], KEEPFILTERS(dim_marketplace[marketplace] = "flipkart"))
+		formatString: #,0.00
+		lineageTag: e6037368-3b6f-4c02-b9fe-8405425d4203
+
+	measure 'Myntra Median Recorded Price' = CALCULATE([Median Recorded Price], KEEPFILTERS(dim_marketplace[marketplace] = "myntra"))
+		formatString: #,0.00
+		lineageTag: 142ce536-7923-40d7-ba04-d84ba9057ddf
+
+	column product_id
+		dataType: int64
+		isKey
+		lineageTag: 46a60b8e-eaac-427e-a119-d1b18bef0599
+		summarizeBy: none
+		sourceColumn: product_id
+
+	column marketplace
+		dataType: string
+		lineageTag: 0e3b2f93-3702-48ff-a7a8-cc08e440b14c
+		summarizeBy: none
+		sourceColumn: marketplace
+
+	column source_product_id
+		dataType: string
+		lineageTag: 78ba95c0-31ce-4f19-b463-b2eaab8b17b5
+		summarizeBy: none
+		sourceColumn: source_product_id
+
+	column product_name
+		dataType: string
+		lineageTag: ed957152-b4e2-4b0d-b6bd-a6a936645477
+		summarizeBy: none
+		sourceColumn: product_name
+
+	column brand_id
+		dataType: int64
+		lineageTag: 79ac9085-6e14-401a-81bb-5f6a3ae625e2
+		summarizeBy: none
+		sourceColumn: brand_id
+
+	column category_id
+		dataType: int64
+		lineageTag: 292742e7-e0c2-4efc-8cec-2166d3a53985
+		summarizeBy: none
+		sourceColumn: category_id
+
+	column price_band_id
+		dataType: int64
+		lineageTag: 2b1dc4b8-c0ab-411b-949e-377b0a34527c
+		summarizeBy: none
+		sourceColumn: price_band_id
+
+	column colour
+		dataType: string
+		lineageTag: 524e9a86-15c0-41c0-a991-67889719799d
+		summarizeBy: none
+		sourceColumn: colour
+
+	column recorded_price_field
+		dataType: string
+		lineageTag: 8da43613-6424-426e-8a1d-668feef43faf
+		summarizeBy: none
+		sourceColumn: recorded_price_field
+
+	column recorded_price
+		dataType: decimal
+		lineageTag: 1b97e70f-1d02-4182-9215-fd65b3135da6
+		summarizeBy: none
+		sourceColumn: recorded_price
+
+	column retail_price
+		dataType: decimal
+		lineageTag: 163d6328-eaf7-43a7-951c-801ab4d60f6e
+		summarizeBy: none
+		sourceColumn: retail_price
+
+	column discounted_price
+		dataType: decimal
+		lineageTag: 83a974ac-ac14-4d54-99be-8101da5c54e3
+		summarizeBy: none
+		sourceColumn: discounted_price
+
+	column discount_amount
+		dataType: decimal
+		lineageTag: dafc2bff-109e-4b7c-ba60-e728b8721908
+		summarizeBy: none
+		sourceColumn: discount_amount
+
+	column discount_fraction
+		dataType: double
+		lineageTag: 2373e0bc-d4af-4267-8dea-5d7de388df50
+		summarizeBy: none
+		sourceColumn: discount_fraction
+
+	column rating
+		dataType: double
+		lineageTag: 81697950-3777-4c07-a260-6d446e233a30
+		summarizeBy: none
+		sourceColumn: rating
+
+	column overall_rating
+		dataType: double
+		lineageTag: 10404ebc-395e-41d5-b843-c12b7c14bb0b
+		summarizeBy: none
+		sourceColumn: overall_rating
+
+	column rating_count
+		dataType: int64
+		lineageTag: b7a0f495-0d20-43e1-b4ab-8f9e6bd559d9
+		summarizeBy: none
+		sourceColumn: rating_count
+
+	column has_rating
+		dataType: int64
+		lineageTag: 3d284422-b1fa-428c-b0c0-c21d94b056d5
+		summarizeBy: none
+		sourceColumn: has_rating
+
+	column has_overall_rating
+		dataType: int64
+		lineageTag: 7f5f63b5-21da-46d3-8423-71362044ea88
+		summarizeBy: none
+		sourceColumn: has_overall_rating
+
+	column has_rating_count
+		dataType: int64
+		lineageTag: 28caa3f7-5de8-43cd-8061-2b5044ca9e32
+		summarizeBy: none
+		sourceColumn: has_rating_count
+
+	column missing_recorded_price
+		dataType: int64
+		lineageTag: 15c74902-41c5-4b34-bf47-76c33d2c12cd
+		summarizeBy: none
+		sourceColumn: missing_recorded_price
+
+	column missing_retail_price
+		dataType: int64
+		lineageTag: d39883a2-9763-4b2c-8814-e5f15367700e
+		summarizeBy: none
+		sourceColumn: missing_retail_price
+
+	column missing_brand
+		dataType: int64
+		lineageTag: 92c03ee5-7574-470d-b372-25017c9b4bb4
+		summarizeBy: none
+		sourceColumn: missing_brand
+
+	column missing_category
+		dataType: int64
+		lineageTag: faaf9213-2889-4df8-9332-88eb0430dc81
+		summarizeBy: none
+		sourceColumn: missing_category
+
+	column missing_attributes
+		dataType: int64
+		lineageTag: 9aabdab7-bcdb-4968-969d-ca02ae1f5254
+		summarizeBy: none
+		sourceColumn: missing_attributes
+
+	column missing_colour
+		dataType: int64
+		lineageTag: da2d147b-d378-4af4-908a-c1ede093df9e
+		summarizeBy: none
+		sourceColumn: missing_colour
+
+	column missing_observation_date
+		dataType: int64
+		lineageTag: 327596e7-696f-4427-8a94-b5a08c329c86
+		summarizeBy: none
+		sourceColumn: missing_observation_date
+
+	column has_conflicts
+		dataType: int64
+		lineageTag: fdf7ea94-31c5-415f-be35-9dc170b1762f
+		summarizeBy: none
+		sourceColumn: has_conflicts
+
+	column observed_at
+		dataType: string
+		lineageTag: fc866994-2524-4240-9b1e-0133cc177782
+		summarizeBy: none
+		sourceColumn: observed_at
+
+	column product_url
+		dataType: string
+		lineageTag: a5b78bf6-1585-48ae-97f1-36135e8d582e
+		summarizeBy: none
+		sourceColumn: product_url
+
+	column attributes_json
+		dataType: string
+		lineageTag: b7895e34-ef4d-43c2-a0ad-4c9df1765b38
+		summarizeBy: none
+		sourceColumn: attributes_json
+
+	column listing = fact_product[product_name] & " (" & fact_product[marketplace] & ":" & fact_product[source_product_id] & ")"
+		dataType: string
+		lineageTag: 453428a1-bf94-4c13-82f6-2b612209d675
+		summarizeBy: none
+
+	column discount_band_order = IF(ISBLANK(fact_product[discount_fraction]), BLANK(), IF(fact_product[discount_fraction] = 0, 0, MIN(4, 1 + INT(fact_product[discount_fraction] * 4))))
+		dataType: int64
+		lineageTag: 879e7527-2d56-4917-939a-bc15a6575a76
+		summarizeBy: none
+
+	column discount_band = IF(ISBLANK(fact_product[discount_band_order]), BLANK(), SWITCH(fact_product[discount_band_order], 0, "0%", 1, ">0% to <25%", 2, "25% to <50%", 3, "50% to <75%", 4, "75% to 100%"))
+		dataType: string
+		lineageTag: 95c8e257-cbc8-4ed7-a0cc-27fdd49317b5
+		summarizeBy: none
+		sortByColumn: discount_band_order
+
+	column rating_band_order = IF(ISBLANK(fact_product[rating]), BLANK(), INT(fact_product[rating]))
+		dataType: int64
+		lineageTag: bcfa1933-d118-4067-8831-f0288026d520
+		summarizeBy: none
+
+	column rating_band = IF(ISBLANK(fact_product[rating_band_order]), BLANK(), SWITCH(fact_product[rating_band_order], 0, "0 to <1", 1, "1 to <2", 2, "2 to <3", 3, "3 to <4", 4, "4 to <5", 5, "5"))
+		dataType: string
+		lineageTag: 56f89a8e-2867-4058-a9a8-758aab919728
+		summarizeBy: none
+		sortByColumn: rating_band_order
+
+	column listing_compact = LEFT(fact_product[product_name], 38) & IF(LEN(fact_product[product_name]) > 38, "…", "") & " · " & IF(fact_product[marketplace] = "flipkart", "FK ", "MY ") & fact_product[source_product_id]
+		dataType: string
+		lineageTag: d98e407f-4628-45c0-b452-3f860650efe6
+		summarizeBy: none
+
+	column scatter_bin = VAR Price = fact_product[recorded_price] VAR Stars = fact_product[rating] RETURN IF(NOT ISBLANK(Price) && NOT ISBLANK(Stars), INT(LOG10(1 + Price) * 5) & "|" & INT(Stars * 5))
+		dataType: string
+		lineageTag: 07b43b7f-9d65-4dd0-99ab-bb823f039eea
+		summarizeBy: none
+
+	partition fact_product = m
+		mode: import
+		source =
+				let
+					Folder = if DataFolder = "SET_DATA_FOLDER" then error "Set DataFolder to the full powerbi/data path before refresh." else DataFolder,
+					Raw = Csv.Document(File.Contents(Folder & "/fact_product.csv"), [Delimiter=",", Encoding=65001, QuoteStyle=QuoteStyle.Csv]),
+					Headers = Table.PromoteHeaders(Raw, [PromoteAllScalars=true]),
+					Typed = Table.TransformColumnTypes(Headers, {{"product_id", Int64.Type}, {"marketplace", type text}, {"source_product_id", type text}, {"product_name", type text}, {"brand_id", Int64.Type}, {"category_id", Int64.Type}, {"price_band_id", Int64.Type}, {"colour", type text}, {"recorded_price_field", type text}, {"recorded_price", Currency.Type}, {"retail_price", Currency.Type}, {"discounted_price", Currency.Type}, {"discount_amount", Currency.Type}, {"discount_fraction", type number}, {"rating", type number}, {"overall_rating", type number}, {"rating_count", Int64.Type}, {"has_rating", Int64.Type}, {"has_overall_rating", Int64.Type}, {"has_rating_count", Int64.Type}, {"missing_recorded_price", Int64.Type}, {"missing_retail_price", Int64.Type}, {"missing_brand", Int64.Type}, {"missing_category", Int64.Type}, {"missing_attributes", Int64.Type}, {"missing_colour", Int64.Type}, {"missing_observation_date", Int64.Type}, {"has_conflicts", Int64.Type}, {"observed_at", type text}, {"product_url", type text}, {"attributes_json", type text}}, "en-US")
+				in
+					Typed

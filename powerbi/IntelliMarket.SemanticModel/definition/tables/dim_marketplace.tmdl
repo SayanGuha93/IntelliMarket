@@ -1,0 +1,26 @@
+table dim_marketplace
+	lineageTag: c8f8ac69-4e9d-415a-a196-25397f26e8ea
+
+	column marketplace
+		dataType: string
+		isKey
+		lineageTag: 39ebf1c2-9fd2-4a0b-b685-b8c71128dddd
+		summarizeBy: none
+		sourceColumn: marketplace
+
+	column marketplace_name
+		dataType: string
+		lineageTag: 4b1cbd6d-0d7a-4180-b013-0c9c86138e6d
+		summarizeBy: none
+		sourceColumn: marketplace_name
+
+	partition dim_marketplace = m
+		mode: import
+		source =
+				let
+					Folder = if DataFolder = "SET_DATA_FOLDER" then error "Set DataFolder to the full powerbi/data path before refresh." else DataFolder,
+					Raw = Csv.Document(File.Contents(Folder & "/dim_marketplace.csv"), [Delimiter=",", Encoding=65001, QuoteStyle=QuoteStyle.Csv]),
+					Headers = Table.PromoteHeaders(Raw, [PromoteAllScalars=true]),
+					Typed = Table.TransformColumnTypes(Headers, {{"marketplace", type text}, {"marketplace_name", type text}}, "en-US")
+				in
+					Typed

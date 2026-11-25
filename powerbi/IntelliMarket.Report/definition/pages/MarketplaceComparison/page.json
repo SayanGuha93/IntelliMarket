@@ -1,0 +1,111 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/page/1.0.0/schema.json",
+  "name": "MarketplaceComparison",
+  "displayName": "Flipkart vs Myntra",
+  "displayOption": "FitToPage",
+  "width": 1600,
+  "height": 900,
+  "objects": {
+    "background": [
+      {
+        "properties": {
+          "color": {
+            "solid": {
+              "color": {
+                "expr": {
+                  "Literal": {
+                    "Value": "'#E9EFF7'"
+                  }
+                }
+              }
+            }
+          },
+          "transparency": {
+            "expr": {
+              "Literal": {
+                "Value": "0D"
+              }
+            }
+          }
+        }
+      }
+    ]
+  },
+  "visualInteractions": [
+    {
+      "source": "slicer0",
+      "target": "marketCounts",
+      "type": "DataFilter"
+    },
+    {
+      "source": "slicer0",
+      "target": "compareBands",
+      "type": "DataFilter"
+    },
+    {
+      "source": "slicer0",
+      "target": "coverage",
+      "type": "DataFilter"
+    },
+    {
+      "source": "slicer0",
+      "target": "sharedCategories",
+      "type": "DataFilter"
+    },
+    {
+      "source": "slicer0",
+      "target": "completeness",
+      "type": "DataFilter"
+    },
+    {
+      "source": "slicer1",
+      "target": "marketCounts",
+      "type": "DataFilter"
+    },
+    {
+      "source": "slicer1",
+      "target": "compareBands",
+      "type": "DataFilter"
+    },
+    {
+      "source": "slicer1",
+      "target": "coverage",
+      "type": "DataFilter"
+    },
+    {
+      "source": "slicer1",
+      "target": "sharedCategories",
+      "type": "DataFilter"
+    },
+    {
+      "source": "slicer1",
+      "target": "completeness",
+      "type": "DataFilter"
+    },
+    {
+      "source": "slicer2",
+      "target": "marketCounts",
+      "type": "DataFilter"
+    },
+    {
+      "source": "slicer2",
+      "target": "compareBands",
+      "type": "DataFilter"
+    },
+    {
+      "source": "slicer2",
+      "target": "coverage",
+      "type": "DataFilter"
+    },
+    {
+      "source": "slicer2",
+      "target": "sharedCategories",
+      "type": "DataFilter"
+    },
+    {
+      "source": "slicer2",
+      "target": "completeness",
+      "type": "DataFilter"
+    }
+  ]
+}

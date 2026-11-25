@@ -1,10 +1,12 @@
 import sqlite3
 from pathlib import Path
+import os
 
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-DATABASE_PATH = BASE_DIR / "prices.db"
+_path = Path(os.getenv("INTELLIMARKET_DB_PATH", str(BASE_DIR / "prices.db")))
+DATABASE_PATH = _path if _path.is_absolute() else BASE_DIR / _path
 
 
 def get_connection():
