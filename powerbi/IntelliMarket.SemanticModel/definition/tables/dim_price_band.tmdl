@@ -1,0 +1,27 @@
+table dim_price_band
+	lineageTag: a159c058-0f7d-4bfc-adf5-339d24de498c
+
+	column price_band_id
+		dataType: int64
+		isKey
+		lineageTag: 232fda0a-55f1-4a63-b6e7-a17bfea268b9
+		summarizeBy: none
+		sourceColumn: price_band_id
+
+	column price_band
+		dataType: string
+		lineageTag: 99cf5fb7-6dff-46ff-994c-77f98cf9d8c5
+		summarizeBy: none
+		sourceColumn: price_band
+		sortByColumn: price_band_id
+
+	partition dim_price_band = m
+		mode: import
+		source =
+				let
+					Folder = if DataFolder = "SET_DATA_FOLDER" then error "Set DataFolder to the full powerbi/data path before refresh." else DataFolder,
+					Raw = Csv.Document(File.Contents(Folder & "/dim_price_band.csv"), [Delimiter=",", Encoding=65001, QuoteStyle=QuoteStyle.Csv]),
+					Headers = Table.PromoteHeaders(Raw, [PromoteAllScalars=true]),
+					Typed = Table.TransformColumnTypes(Headers, {{"price_band_id", Int64.Type}, {"price_band", type text}}, "en-US")
+				in
+					Typed

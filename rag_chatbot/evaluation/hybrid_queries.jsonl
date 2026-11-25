@@ -1,0 +1,42 @@
+{"split":"development","query":"name: Alisha Solid Women's Cycling Shorts; platform: flipkart","oracle":"p.name = 'Alisha Solid Women''s Cycling Shorts' AND p.platform='flipkart'"}
+{"split":"development","query":"platform: flipkart; id: SRTEH2FF9KEDEFGF","oracle":"p.source_id='SRTEH2FF9KEDEFGF' AND p.platform='flipkart'"}
+{"split":"development","query":"platform: myntra; id: 17048614.0","oracle":"p.source_id='17048614' AND p.platform='myntra'"}
+{"split":"development","query":"platform: myntra; brand: roadster; colour: blue; price>=500; price<=2000; rating>=4; sort: price-asc","oracle":"p.platform='myntra' AND p.brand_key='roadster' AND p.colour_key='blue' AND p.price_minor BETWEEN 50000 AND 200000 AND p.rating>=4","order":"p.price_minor,p.id"}
+{"split":"development","query":"platform: flipkart; price-field: retail; price=35; sort: price-desc","oracle":"p.platform='flipkart' AND p.retail_price_minor=3500","order":"p.retail_price_minor DESC,p.id"}
+{"split":"development","query":"brand: chhabra 555; platform: myntra; rating-count>10; sort: rating-desc","oracle":"p.platform='myntra' AND p.brand_key='chhabra 555' AND p.rating_count>10","order":"p.rating IS NULL,p.rating DESC,p.id"}
+{"split":"development","query":"category: kurtas; platform: myntra; colour: black; sort: price-asc","oracle":"p.platform='myntra' AND p.colour_key='black' AND p.id IN (SELECT product_id FROM categories WHERE category_key='kurtas')","order":"p.price_minor IS NULL,p.price_minor,p.id"}
+{"split":"development","query":"platform: myntra; category: dresses; price>1000; price<1400; sort: price-desc","oracle":"p.platform='myntra' AND p.price_minor>100000 AND p.price_minor<140000 AND p.id IN (SELECT product_id FROM categories WHERE category_key='dresses')","order":"p.price_minor DESC,p.id"}
+{"split":"development","query":"Cycling Lycra shorts; platform: flipkart; price<=379","relevant":["flipkart:SRTEH2FF9KEDEFGF"],"oracle":"p.platform='flipkart' AND p.price_minor<=37900"}
+{"split":"development","query":"Khushal K palazzos Mandarin collar; platform: myntra; colour: black","relevant":["myntra:17048614"],"oracle":"p.platform='myntra' AND p.colour_key='black'"}
+{"split":"development","query":"show watches under 900 on Flipkart or Myntra","error":true}
+{"split":"development","query":"compare jackets on Myntra","error":true}
+{"split":"held-out","query":"category: necklaces; platform: flipkart; sort: price-asc","oracle":"p.platform='flipkart' AND p.id IN (SELECT product_id FROM categories WHERE category_key='necklaces')","order":"p.price_minor IS NULL,p.price_minor,p.id"}
+{"split":"held-out","query":"platform: flipkart; brand: alisha; rating>4; sort: rating-desc","oracle":"p.platform='flipkart' AND p.brand_key='alisha' AND p.rating>4","order":"p.rating DESC,p.id"}
+{"split":"held-out","query":"platform: myntra; brand: mango; sort: count-desc","oracle":"p.platform='myntra' AND p.brand_key='mango'","order":"p.rating_count IS NULL,p.rating_count DESC,p.id"}
+{"split":"held-out","query":"platform: myntra; rating-count=100; sort: price-asc","oracle":"p.platform='myntra' AND p.rating_count=100","order":"p.price_minor IS NULL,p.price_minor,p.id"}
+{"split":"held-out","query":"platform: flipkart; price>100000; sort: price-desc","oracle":"p.platform='flipkart' AND p.price_minor>10000000","order":"p.price_minor DESC,p.id"}
+{"split":"held-out","query":"platform: myntra; category: jeans; colour: grey; rating>=4; sort: price-asc","oracle":"p.platform='myntra' AND p.colour_key='grey' AND p.rating>=4 AND p.id IN (SELECT product_id FROM categories WHERE category_key='jeans')","order":"p.price_minor IS NULL,p.price_minor,p.id"}
+{"split":"held-out","query":"platform: myntra; brand: roadster; rating-count>=50; rating<4; sort: count-desc","oracle":"p.platform='myntra' AND p.brand_key='roadster' AND p.rating_count>=50 AND p.rating<4","order":"p.rating_count DESC,p.id"}
+{"split":"held-out","query":"platform: flipkart; id: bmb ehpaggdssymuz","oracle":"0"}
+{"split":"held-out","query":"platform: flipkart; id: bmbehpaggdssymuz; price=35","oracle":"p.platform='flipkart' AND p.source_id='BMBEHPAGGDSSYMUZ' AND p.price_minor=3500"}
+{"split":"held-out","query":"platform: myntra; id: 17685166; colour: black","oracle":"p.platform='myntra' AND p.source_id='17685166' AND p.colour_key='black'"}
+{"split":"held-out","query":"platform: myntra; id: 17685166; colour: purple","oracle":"0"}
+{"split":"held-out","query":"name: Geol Wooden Wet and Dry Broom","oracle":"p.name='Geol Wooden Wet and Dry Broom'"}
+{"split":"held-out","query":"name: President School Waterproof Backpack; sort: price-asc","oracle":"p.name='President School Waterproof Backpack'","order":"p.price_minor IS NULL,p.price_minor,p.id"}
+{"split":"held-out","query":"name:","error":true}
+{"split":"held-out","query":"platform: myntra; price-field: retail","error":true}
+{"split":"held-out","query":"jeans between 5 and 10","error":true}
+{"split":"held-out","query":"price between 35 and 35 on Flipkart","oracle":"p.platform='flipkart' AND p.price_minor=3500"}
+{"split":"held-out","query":"platform: myntra; rating>5","oracle":"p.platform='myntra' AND p.rating>5"}
+{"split":"held-out","query":"platform: myntra; rating>5.1","error":true}
+{"split":"held-out","query":"maternity nursing pure cotton top; platform: myntra","relevant":["myntra:12785024"]}
+{"split":"held-out","query":"decorative Doraemon ceramic coffee cup; platform: flipkart","relevant":["flipkart:DECEG7K7Y3URGWXH"]}
+{"split":"held-out","query":"black washed crop denim jacket with snap buttons; platform: myntra; colour: black","relevant":["myntra:17685166"],"oracle":"p.platform='myntra' AND p.colour_key='black'"}
+{"split":"held-out","query":"compare; platform: flipkart; id: BAGDY6DXVHYBVQPN","comparison":true}
+{"split":"held-out","query":"compare; platform: myntra; id: 17685166","comparison":true}
+{"split":"held-out","query":"A nursing poncho made from modal; platform:myntra","relevant":["myntra:15303056"],"evidence":"SuperBottoms listing specifies modal fabric and nursing use."}
+{"split":"held-out","query":"A regular men's chino for work made from cotton; platform:flipkart","relevant":["flipkart:TROEATNW2VJPJU8U"],"evidence":"Asaba lists type Chinos, fabric Cotton and Formal occasion."}
+{"split":"held-out","query":"A steel vacuum flask around 350 ml; platform:flipkart","relevant":["flipkart:BOTEGYTZ2T6WUJMM"],"evidence":"Freelance Vacuum Bottles 350 ml specifies stainless steel body material."}
+{"split":"held-out","query":"A solid wood dressing table with a drawer and a mirror","relevant":["flipkart:DTBE9ZHVEFSHKRGG"],"evidence":"Annulus listing specifies solid wood, one drawer and mirror dimensions."}
+{"split":"held-out","query":"A red floral saree made from net for parties; platform:myntra","relevant":["myntra:17735542"],"evidence":"Iris lists net fabric, a floral design, and party occasion."}
+{"split":"held-out","query":"Black ethnic kurta outfit that includes rayon palazzos; platform:myntra","relevant":["myntra:17048614"],"evidence":"Khushal K title and bottom attributes identify a black kurta outfit with viscose rayon palazzos."}

@@ -1,0 +1,73 @@
+table dim_category
+	lineageTag: d1cab601-e6de-442b-8e90-21a21aeb12a7
+
+	column category_id
+		dataType: int64
+		isKey
+		lineageTag: 3c86292b-9206-442a-be4b-2fa1e5d32e55
+		summarizeBy: none
+		sourceColumn: category_id
+
+	column category_path
+		dataType: string
+		lineageTag: 34e12e85-8fc8-44c0-8f60-a29525ab7318
+		summarizeBy: none
+		sourceColumn: category_path
+
+	column top_category
+		dataType: string
+		lineageTag: 396726da-286a-46fe-b70e-01ac1ea3a2a7
+		summarizeBy: none
+		sourceColumn: top_category
+
+	column leaf_category
+		dataType: string
+		lineageTag: 0ec96e74-ddbf-41ee-b5fd-532cb774711f
+		summarizeBy: none
+		sourceColumn: leaf_category
+
+	column category_basis
+		dataType: string
+		lineageTag: 3d9b2264-d66c-4447-9b17-9af44bde4c99
+		summarizeBy: none
+		sourceColumn: category_basis
+
+	column category_depth
+		dataType: int64
+		lineageTag: 5df0d116-b44d-4ea3-97b0-b847f05636fb
+		summarizeBy: none
+		sourceColumn: category_depth
+
+	column comparison_category =
+			VAR Segments = SUBSTITUTE(dim_category[category_path], " > ", "|")
+			RETURN SWITCH(TRUE(),
+			    PATHCONTAINS(Segments, "Kurta Sets"), "Kurta Sets",
+			    PATHCONTAINS(Segments, "Kurtas") || PATHCONTAINS(Segments, "Kurtas & Kurtis"), "Kurtas",
+			    PATHCONTAINS(Segments, "T-Shirts"), "T-Shirts",
+			    PATHCONTAINS(Segments, "Shirts"), "Shirts",
+			    PATHCONTAINS(Segments, "Jeans"), "Jeans",
+			    PATHCONTAINS(Segments, "Sarees"), "Sarees",
+			    PATHCONTAINS(Segments, "Jackets"), "Jackets",
+			    PATHCONTAINS(Segments, "Trousers"), "Trousers",
+			    PATHCONTAINS(Segments, "Dresses"), "Dresses",
+			    PATHCONTAINS(Segments, "Tops"), "Tops",
+			    BLANK())
+		dataType: string
+		lineageTag: cd5c524f-680b-4dbc-ade6-2022ac4f4478
+		summarizeBy: none
+
+	column category_display = IF(LEN(TRIM(dim_category[top_category])) = 0, "Unknown category", dim_category[top_category])
+		dataType: string
+		lineageTag: b27d662d-efd6-475f-9451-79f72bba2d81
+		summarizeBy: none
+
+	partition dim_category = m
+		mode: import
+		source =
+				let
+					Folder = if DataFolder = "SET_DATA_FOLDER" then error "Set DataFolder to the full powerbi/data path before refresh." else DataFolder,
+					Raw = Csv.Document(File.Contents(Folder & "/dim_category.csv"), [Delimiter=",", Encoding=65001, QuoteStyle=QuoteStyle.Csv]),
+					Headers = Table.PromoteHeaders(Raw, [PromoteAllScalars=true]),
+					Typed = Table.TransformColumnTypes(Headers, {{"category_id", Int64.Type}, {"category_path", type text}, {"top_category", type text}, {"leaf_category", type text}, {"category_basis", type text}, {"category_depth", Int64.Type}}, "en-US")
+				in
+					Typed

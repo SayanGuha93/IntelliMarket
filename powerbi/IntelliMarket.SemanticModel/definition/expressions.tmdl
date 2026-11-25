@@ -1,0 +1,4 @@
+expression DataFolder = "SET_DATA_FOLDER" meta [IsParameterQuery=true, Type="Text", IsParameterQueryRequired=true]
+	lineageTag: 64902d8a-36a5-4e18-8d04-c2626fa360f3
+
+	annotation PBI_ResultType = Text

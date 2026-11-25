@@ -1,0 +1,15 @@
+relationship ProductToMarketplace
+	fromColumn: fact_product.marketplace
+	toColumn: dim_marketplace.marketplace
+
+relationship ProductToBrand
+	fromColumn: fact_product.brand_id
+	toColumn: dim_brand.brand_id
+
+relationship ProductToCategory
+	fromColumn: fact_product.category_id
+	toColumn: dim_category.category_id
+
+relationship ProductToPriceBand
+	fromColumn: fact_product.price_band_id
+	toColumn: dim_price_band.price_band_id

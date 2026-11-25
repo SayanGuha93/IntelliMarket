@@ -1,0 +1,171 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/page/1.0.0/schema.json",
+  "name": "PriceDiscountAnalytics",
+  "displayName": "Price and Discount Analytics",
+  "displayOption": "FitToPage",
+  "width": 1600,
+  "height": 900,
+  "objects": {
+    "background": [
+      {
+        "properties": {
+          "color": {
+            "solid": {
+              "color": {
+                "expr": {
+                  "Literal": {
+                    "Value": "'#E9EFF7'"
+                  }
+                }
+              }
+            }
+          },
+          "transparency": {
+            "expr": {
+              "Literal": {
+                "Value": "0D"
+              }
+            }
+          }
+        }
+      }
+    ]
+  },
+  "visualInteractions": [
+    {
+      "source": "slicer0",
+      "target": "kpi0",
+      "type": "DataFilter"
+    },
+    {
+      "source": "slicer0",
+      "target": "kpi1",
+      "type": "DataFilter"
+    },
+    {
+      "source": "slicer0",
+      "target": "kpi2",
+      "type": "DataFilter"
+    },
+    {
+      "source": "slicer0",
+      "target": "kpi3",
+      "type": "DataFilter"
+    },
+    {
+      "source": "slicer0",
+      "target": "priceDistribution",
+      "type": "DataFilter"
+    },
+    {
+      "source": "slicer0",
+      "target": "priceBandTable",
+      "type": "DataFilter"
+    },
+    {
+      "source": "slicer0",
+      "target": "discountBands",
+      "type": "DataFilter"
+    },
+    {
+      "source": "slicer0",
+      "target": "categoryPrice",
+      "type": "DataFilter"
+    },
+    {
+      "source": "slicer0",
+      "target": "topDiscounts",
+      "type": "DataFilter"
+    },
+    {
+      "source": "slicer1",
+      "target": "kpi0",
+      "type": "DataFilter"
+    },
+    {
+      "source": "slicer1",
+      "target": "kpi1",
+      "type": "DataFilter"
+    },
+    {
+      "source": "slicer1",
+      "target": "kpi2",
+      "type": "DataFilter"
+    },
+    {
+      "source": "slicer1",
+      "target": "kpi3",
+      "type": "DataFilter"
+    },
+    {
+      "source": "slicer1",
+      "target": "priceDistribution",
+      "type": "DataFilter"
+    },
+    {
+      "source": "slicer1",
+      "target": "priceBandTable",
+      "type": "DataFilter"
+    },
+    {
+      "source": "slicer1",
+      "target": "discountBands",
+      "type": "DataFilter"
+    },
+    {
+      "source": "slicer1",
+      "target": "categoryPrice",
+      "type": "DataFilter"
+    },
+    {
+      "source": "slicer1",
+      "target": "topDiscounts",
+      "type": "DataFilter"
+    },
+    {
+      "source": "slicer2",
+      "target": "kpi0",
+      "type": "DataFilter"
+    },
+    {
+      "source": "slicer2",
+      "target": "kpi1",
+      "type": "DataFilter"
+    },
+    {
+      "source": "slicer2",
+      "target": "kpi2",
+      "type": "DataFilter"
+    },
+    {
+      "source": "slicer2",
+      "target": "kpi3",
+      "type": "DataFilter"
+    },
+    {
+      "source": "slicer2",
+      "target": "priceDistribution",
+      "type": "DataFilter"
+    },
+    {
+      "source": "slicer2",
+      "target": "priceBandTable",
+      "type": "DataFilter"
+    },
+    {
+      "source": "slicer2",
+      "target": "discountBands",
+      "type": "DataFilter"
+    },
+    {
+      "source": "slicer2",
+      "target": "categoryPrice",
+      "type": "DataFilter"
+    },
+    {
+      "source": "slicer2",
+      "target": "topDiscounts",
+      "type": "DataFilter"
+    }
+  ]
+}

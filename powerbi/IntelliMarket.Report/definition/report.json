@@ -1,0 +1,51 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/report/3.4.0/schema.json",
+  "themeCollection": {
+    "baseTheme": {
+      "name": "CY24SU06",
+      "reportVersionAtImport": {
+        "visual": "1.8.88",
+        "report": "2.0.88",
+        "page": "1.3.88"
+      },
+      "type": "SharedResources"
+    },
+    "customTheme": {
+      "name": "IntelliMarket.json",
+      "reportVersionAtImport": {
+        "visual": "1.8.88",
+        "report": "2.0.88",
+        "page": "1.3.88"
+      },
+      "type": "RegisteredResources"
+    }
+  },
+  "resourcePackages": [
+    {
+      "name": "SharedResources",
+      "type": "SharedResources",
+      "items": [
+        {
+          "name": "CY24SU06",
+          "path": "BaseThemes/CY24SU06.json",
+          "type": "BaseTheme"
+        }
+      ]
+    },
+    {
+      "name": "RegisteredResources",
+      "type": "RegisteredResources",
+      "items": [
+        {
+          "name": "IntelliMarket.json",
+          "path": "IntelliMarket.json",
+          "type": "CustomTheme"
+        }
+      ]
+    }
+  ],
+  "settings": {
+    "useEnhancedTooltips": false
+  },
+  "linguisticSchemaSyncVersion": 2
+}

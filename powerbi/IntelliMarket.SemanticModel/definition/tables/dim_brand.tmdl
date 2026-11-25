@@ -1,0 +1,32 @@
+table dim_brand
+	lineageTag: 2368ea6e-650c-4a60-b135-fb4dc2033618
+
+	column brand_id
+		dataType: int64
+		isKey
+		lineageTag: c35a54a5-dbab-4b0a-aacf-ad4cda9b2b79
+		summarizeBy: none
+		sourceColumn: brand_id
+
+	column brand_key
+		dataType: string
+		lineageTag: 577e7e21-7566-48e5-afe6-947c58ef3208
+		summarizeBy: none
+		sourceColumn: brand_key
+
+	column brand_name
+		dataType: string
+		lineageTag: 0f628b8f-ebb7-4127-9a86-0b8b7ba1fb03
+		summarizeBy: none
+		sourceColumn: brand_name
+
+	partition dim_brand = m
+		mode: import
+		source =
+				let
+					Folder = if DataFolder = "SET_DATA_FOLDER" then error "Set DataFolder to the full powerbi/data path before refresh." else DataFolder,
+					Raw = Csv.Document(File.Contents(Folder & "/dim_brand.csv"), [Delimiter=",", Encoding=65001, QuoteStyle=QuoteStyle.Csv]),
+					Headers = Table.PromoteHeaders(Raw, [PromoteAllScalars=true]),
+					Typed = Table.TransformColumnTypes(Headers, {{"brand_id", Int64.Type}, {"brand_key", type text}, {"brand_name", type text}}, "en-US")
+				in
+					Typed
